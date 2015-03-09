@@ -166,7 +166,7 @@ public class Mazub {
 		return (int) getYPosition();
 	}
 	
-	//HORIZONTAL MOVEMENT
+	//HORIZONTAL MOVEMENT	(total)
 	/**
 	 * Starts Mazub's horizontal movement.
 	 * @pre Mazub is not moving horizontally.
@@ -302,17 +302,50 @@ public class Mazub {
 		// If Mazub is not jumping, there is no change in vertical position.
 	}
 	
-	//DUCKING
-	public void startDuck() {
-		
+	//DUCKING		(defensively)
+	/**
+	 * Starts the ducking motion 
+	 * @throws IllegalStateException
+	 */
+	public void startDuck() throws IllegalStateException {
+		if (isDucking() || isInAir()){		//Mazub is ducking or still in the air
+			throw new IllegalStateException();	
+		}else setIsDucking(true);
 	}
 	
-	public void endDuck() {
+	/**
+	 * Stops the ducking motion
+	 * @throws IllegalStateException
+	 */
+	public void endDuck() throws IllegalStateException {
+		if (!isDucking()){ //Mazub is not ducking
+			throw new IllegalStateException();
+		} else {
+			setIsDucking(false);
+		}
 		
 	}
 	
 	//GLOBAL
-	public void advanceTime(double step) {
-		
+	/**
+	 * Advances the time with a given step
+	 * @param step
+	 * @throws IllegalArgumentException
+	 */
+	public void advanceTime(double step) throws IllegalArgumentException,OutOfRangeException { //defensively
+		if (!(step>=0 && step<=0.2)){
+			throw new IllegalArgumentException();
+		if //can't check if Mazub stays in boundaries of game world, change last step in update functions and update manually??
+		} else{
+		updateXVelocity(step);
+		updateXPosition(step);
+		updateYVelocity(step);
+		updateYPosition(step);
+		}
+	}
+	
+	//SPRITES  (nominal)
+	public int getCurrentSprite(){
+		return 1;
 	}
 }
