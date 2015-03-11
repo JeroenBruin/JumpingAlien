@@ -1,3 +1,5 @@
+package jumpingalien.model;
+
 public enum XState {
 	STILL {
 		public char getSymbol() {

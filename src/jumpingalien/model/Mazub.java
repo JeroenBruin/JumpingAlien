@@ -1,3 +1,7 @@
+package jumpingalien.model;
+
+import jumpingalien.util.Sprite;
+
 /**
  * Class that implements the character of the game Jumping Alien.
  * 
@@ -25,7 +29,10 @@ public class Mazub {
 	
 	private final double INITIAL_Y_VELOCITY = 8;
 	private static final double Y_ACCELERATION = -10;
-	private boolean inAir;
+	private boolean isJumping;
+	
+	private final double MAX_X = 1023 * 0.01;
+	private final double MAX_Y = 767 * 0.01;
 	
 	public int width;
 	public int height;
@@ -40,103 +47,111 @@ public class Mazub {
 	private XState lastState;
 	private boolean lastDirectionIsRight;
 	
+	private Sprite[] sprites;
+	
 	//CONSTRUCTOR
-	public Mazub(int position) {
+	public Mazub(double XPosition, double YPosition, Sprite[] sprites) {
+		setXPosition(XPosition);
+		setYPosition(YPosition);
+		setSprites(sprites);
 	}	
 	
 	//BASIC GETTERS & SETTERS
-	public XState getXState() {
-		return xState;
-	}
-
-	public boolean isInAir() {
-		return inAir;
-	}
-
+	// TODO insert comments on getters and setters (at least @Basic on some of them)
 	public int getWidth() {
-		return width;
+		// TODO
+		return 50;
 	}
 
 	public int getHeight() {
-		return height;
+		// TODO
+		return 50;
 	}
 
 	public double getXPosition() {
 		return xPosition;
 	}
 
-	public double getYPosition() {
-		return yPosition;
-	}
-
-	public double getXVelocity() {
-		return xVelocity;
-	}
-
-	public double getYVelocity() {
-		return yVelocity;
-	}
-
-	public boolean isDirectionIsRight() {
-		return directionIsRight;
-	}
-
-	public boolean isDucking() {
-		return isDucking;
-	}
-
-	public double getTimeToLastStateChange() {
-		return timeToLastStateChange;
-	}
-
-	public XState getLastState() {
-		return lastState;
-	}
-
-	public boolean isLastDirectionIsRight() {
-		return lastDirectionIsRight;
-	}
-
-	public void setXState(XState xState) {
-		this.xState = xState;
-	}
-
-	public void setInAir(boolean inAir) {
-		this.inAir = inAir;
-	}
-
 	public void setXPosition(double xPosition) {
 		this.xPosition = xPosition;
+	}
+
+	public double getYPosition() {
+		return yPosition;
 	}
 
 	public void setYPosition(double yPosition) {
 		this.yPosition = yPosition;
 	}
 
+	public double getXVelocity() {
+		return xVelocity;
+	}
+
 	public void setXVelocity(double xVelocity) {
 		this.xVelocity = xVelocity;
+	}
+
+	public double getYVelocity() {
+		return yVelocity;
 	}
 
 	public void setYVelocity(double yVelocity) {
 		this.yVelocity = yVelocity;
 	}
 
-	public void setDirectionIsRight(boolean directionIsRight) {
-		this.directionIsRight = directionIsRight;
+	public XState getXState() {
+		return xState;
+	}
+
+	public void setXState(XState xState) {
+		this.xState = xState;
+	}
+
+	public boolean isJumping() {
+		return isJumping;
+	}
+
+	public void setJumping(boolean inAir) {
+		this.isJumping = inAir;
+	}
+
+	public boolean isDucking() {
+		return isDucking;
 	}
 
 	public void setIsDucking(boolean isDucking) {
 		this.isDucking = isDucking;
 	}
 
-	public void setLastState(XState lastState) {
-		this.lastState = lastState;
+	public boolean isDirectionIsRight() {
+		return directionIsRight;
+	}
+
+	public void setDirectionIsRight(boolean directionIsRight) {
+		this.directionIsRight = directionIsRight;
 	}
 
 	public void setLastDirectionIsRight(boolean lastDirectionIsRight) {
 		this.lastDirectionIsRight = lastDirectionIsRight;
 	}
-	
+
+	public boolean isLastDirectionIsRight() {
+		return lastDirectionIsRight;
+	}
+
+	public XState getLastState() {
+		return lastState;
+	}
+
+	public void setLastState(XState lastState) {
+		this.lastState = lastState;
+	}
+
+	public double getTimeToLastStateChange() {
+		return timeToLastStateChange;
+	}
+
 	public void resetTimeToLastStateChange() {
 		this.timeToLastStateChange = 0;
 	}
@@ -145,26 +160,58 @@ public class Mazub {
 		this.timeToLastStateChange += step;
 	}
 	
+	public Sprite[] getSprites() {
+		return this.sprites;
+	}
+	
+	public Sprite getSprite(int index) {
+		return getSprites()[index];
+	}
+	
+	public void setSprites(Sprite[] sprites) {
+		this.sprites = sprites;
+	}
+	
 	//OTHER INSPECTORS
-	public char getOrientation() {
-		return 'N';
+	/**
+	 * Get the x-coordinate of the bottom left pixel of Mazub.
+	 * @return XPosition converted from meter to pixels and rounded down.
+	 */
+	public int getXPixel() {
+		return (int) (getXPosition() * 100);
 	}
 	
 	/**
-	 * Get the displayed horizontal position of Mazub
-	 * @return rounded down version of the current vertical position.
+	 * Get the y-coordinate of the bottom left pixel of Mazub.
+	 * @return YPosition converted from meter to pixels and rounded down.
 	 */
-	public int getEffectiveXPosition() {
-		return (int) getXPosition();
+	public int getYPixel() {
+		return (int) (getYPosition() * 100);
 	}
 	
 	/**
-	 * Get the displayed vertical position of Mazub
-	 * @return rounded down version of the current vertical position.
+	 * Returns the x-component of the current acceleration.
+	 * @return X_ACCELERATION if Mazub is accelerating horizontally, zero if not.
 	 */
-	public int getEffectiveYPosition() {
-		return (int) getYPosition();
+	public double getXAcceleration() {
+		if (getXState() == XState.ACCELERATING) {
+			return X_ACCELERATION;
+		} else {
+			return 0;
+		}
 	}
+	
+	/**
+	 * Returns the y-component of the current acceleration.
+	 * @return Y_ACCELERATION if Mazub is in the air, zero if not.
+	 */
+	public double getYAcceleration() {
+		if (isJumping()) {
+			return Y_ACCELERATION;
+		}
+		return 0;
+	}
+	
 	
 	//HORIZONTAL MOVEMENT	(total)
 	/**
@@ -240,7 +287,22 @@ public class Mazub {
 		} else { //Speed is constant (0 or MAX_X_SPEED)
 			distanceTraveled = getXVelocity() * step;
 		} //If Mazub is not moving horizontally, the distance traveled is the initial value of distanceTraveled (0)
-		setXPosition(getXPosition() + distanceTraveled);
+		if (isDirectionIsRight()) { // When going to the right, the distance is added to the old position.
+			setXPosition(getXPosition() + distanceTraveled);
+		} else { //When going to the left, the distance is subtracted from the old position.
+			setXPosition(getXPosition() - distanceTraveled);
+		}
+		setXPosition(isDirectionIsRight() ? getXPosition()+distanceTraveled : getXPosition()-distanceTraveled);
+	
+	}
+	
+	/**
+	 * Check if a given position is a valid x-position
+	 * @param position, x-coordinate of the bottom left coordinate in meters
+	 * @return true if the position is in the interval [0,MAX_X]
+	 */
+	public boolean isValidXPosition(double position) {
+		return (position >= 0) && (position <= MAX_X);
 	}
 	
 	//VERTICAL MOVEMENT
@@ -251,11 +313,11 @@ public class Mazub {
 	 * 		| isInAir()
 	 */
 	public void startJump() throws IllegalStateException {
-		if (isInAir()) {
+		if (isJumping()) {
 			throw new IllegalStateException();
 		}
 		setYVelocity(INITIAL_Y_VELOCITY);
-		setInAir(true);
+		setJumping(true);
 	}
 	
 	/**
@@ -265,7 +327,7 @@ public class Mazub {
 	 * 		| ! isInAir()
 	 */
 	public void endJump() throws IllegalStateException {
-		if (! isInAir()) {
+		if (! isJumping()) {
 			throw new IllegalStateException();
 		}
 		if (getYVelocity() > 0) {
@@ -278,7 +340,7 @@ public class Mazub {
 	 * @param step: the amount of time that has to be advanced.
 	 */
 	public void updateYVelocity(double step) {
-		if (isInAir()) {
+		if (isJumping()) {
 			setYVelocity(getYVelocity() + Y_ACCELERATION * step);
 		}
 		// If Mazub is not jumping, there is no change in vertical speed.
@@ -289,17 +351,26 @@ public class Mazub {
 	 * @param step: the amount of time that has to be advanced.
 	 */
 	public void updateYPosition(double step) {
-		if (isInAir()) {
+		if (isJumping()) {
 			double newPosition = getYPosition() + getYVelocity() * step + .5 * Y_ACCELERATION * step * step;
 			if (newPosition > 0) { //Mazub is still in the air.
 				setYPosition(newPosition);
 			} else { //Mazub has reached the ground again.
 				setYPosition(0);
 				setYVelocity(0);
-				setInAir(false);
+				setJumping(false);
 			}
 		}
 		// If Mazub is not jumping, there is no change in vertical position.
+	}
+	
+	/**
+	 * Check if a given position is a valid y-position
+	 * @param position, y-coordinate of the bottom left coordinate in meters
+	 * @return true if the position is in the interval [0,MAX_Y]
+	 */
+	public boolean isValidYPosition(double position) {
+		return (position >= 0) && (position <= MAX_Y);
 	}
 	
 	//DUCKING		(defensively)
@@ -308,9 +379,9 @@ public class Mazub {
 	 * @throws IllegalStateException
 	 */
 	public void startDuck() throws IllegalStateException {
-		if (isDucking() || isInAir()){		//Mazub is ducking or still in the air
+		if (isDucking()){		//Mazub is ducking
 			throw new IllegalStateException();	
-		}else setIsDucking(true);
+		} else setIsDucking(true);
 	}
 	
 	/**
@@ -322,8 +393,44 @@ public class Mazub {
 			throw new IllegalStateException();
 		} else {
 			setIsDucking(false);
+			if (getXState() != XState.STILL) {
+				setXState(XState.ACCELERATING);
+			}
 		}
-		
+	}
+	
+	
+	//SPRITES  (nominal)
+	public Sprite getCurrentSprite() {
+		//TODO Maybe clean up cases
+		boolean justMoved = (getTimeToLastStateChange() <= 1 && getLastState() != XState.STILL);
+		int m = (sprites.length - 8) / 2 - 1;
+		if (getXState() == XState.STILL) {
+			if (! justMoved) {
+				return isDucking() ? getSprite(1) : getSprite(0);
+			} else {
+				if (isDucking) {
+					return isDirectionIsRight() ? getSprite(6) : getSprite(7); 
+				} else {
+					return isDirectionIsRight() ? getSprite(2) : getSprite(3); 
+				}
+				
+			}
+		} else {
+			if (isDirectionIsRight()) {
+				if (! (isDucking() || isJumping())) {
+					return getSprite(8 + ((int) (getTimeToLastStateChange() / 0.075)) % m);
+				} else {
+					return isDucking() ? getSprite(6) : getSprite(4);
+				}
+			} else {
+				if (! (isDucking() || isJumping())) {
+					return getSprite(9 + m + ((int) (getTimeToLastStateChange() / 0.075)) % m);
+				} else {
+					return isDucking() ? getSprite(7) : getSprite(5);
+				}
+			}
+		}
 	}
 	
 	//GLOBAL
@@ -332,20 +439,29 @@ public class Mazub {
 	 * @param step
 	 * @throws IllegalArgumentException
 	 */
-	public void advanceTime(double step) throws IllegalArgumentException,OutOfRangeException { //defensively
-		if (!(step>=0 && step<=0.2)){
+	public void advanceTime(double step) throws IllegalArgumentException, IndexOutOfBoundsException { //defensively
+		if (!(step>=0 && step<=0.2)) {
 			throw new IllegalArgumentException();
-		if //can't check if Mazub stays in boundaries of game world, change last step in update functions and update manually??
-		} else{
+		}
 		updateXVelocity(step);
 		updateXPosition(step);
 		updateYVelocity(step);
 		updateYPosition(step);
+		if (! isValidXPosition(getXPosition())) { //Mazub is at one of the side edges.
+			if (getXPosition() < 0) { //Mazub is at the left edge.
+				setXPosition(0);
+			} else { //Mazub is at the right edge.
+				setXPosition(MAX_X);
+			}
+			setXVelocity(0);
+			setXState(XState.STILL);
+			throw new IndexOutOfBoundsException();		
 		}
-	}
-	
-	//SPRITES  (nominal)
-	public int getCurrentSprite(){
-		return 1;
+		if (! isValidYPosition(getYPosition())) {
+			setYPosition(MAX_Y);
+			setYVelocity(0);
+			throw new IndexOutOfBoundsException();
+		}
+		advanceTimeToLastStateChange(step);
 	}
 }
