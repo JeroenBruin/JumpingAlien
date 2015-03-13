@@ -62,15 +62,20 @@ public class Mazub {
 	}	
 	
 	//BASIC GETTERS & SETTERS
-	// TODO insert comments on getters and setters (at least @Basic on some of them)
+	/**
+	 * Returns the current width of Mazub
+	 * @return
+	 */
 	public int getWidth() {
-		// TODO
-		return 50;
+		return getCurrentSprite().getWidth();
 	}
-
+	
+	/**
+	 * Returns the current height of Mazub
+	 * @return
+	 */
 	public int getHeight() {
-		// TODO
-		return 50;
+		return getCurrentSprite().getHeight();
 	}
 
 	@Basic
