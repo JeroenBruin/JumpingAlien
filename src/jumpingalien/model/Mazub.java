@@ -50,7 +50,11 @@ public class Mazub {
 	private Sprite[] sprites;
 	
 	//CONSTRUCTOR
-	public Mazub(double XPosition, double YPosition, Sprite[] sprites) {
+	public Mazub(double XPosition, double YPosition, Sprite[] sprites) throws IllegalArgumentException {
+		if (! isValidYPosition(YPosition) || ! isValidXPosition(XPosition)){
+			throw new IllegalArgumentException("illegal Position");
+		}
+		//TODO setIsJumping(true) if YPosition>0?
 		setXPosition(XPosition);
 		setYPosition(YPosition);
 		setSprites(sprites);
@@ -71,6 +75,10 @@ public class Mazub {
 	public double getXPosition() {
 		return xPosition;
 	}
+	
+	public double getMaxXPosition() {
+		return this.MAX_X;
+	}
 
 	public void setXPosition(double xPosition) {
 		this.xPosition = xPosition;
@@ -78,6 +86,10 @@ public class Mazub {
 
 	public double getYPosition() {
 		return yPosition;
+	}
+	
+	public double getMaxYPosition() {
+		return this.MAX_Y;
 	}
 
 	public void setYPosition(double yPosition) {
@@ -112,7 +124,7 @@ public class Mazub {
 		return isJumping;
 	}
 
-	public void setJumping(boolean inAir) {
+	public void setIsJumping(boolean inAir) {
 		this.isJumping = inAir;
 	}
 
@@ -254,25 +266,23 @@ public class Mazub {
 	 * Updates the horizontal velocity of Mazub to its new value after a given amount of time.
 	 * @param step: the amount of time that has to be advanced.
 	 */
-	public void updateXVelocity(double step) {
+	public double calculateNewXVelocity(double step) {
 		if (getXState() == XState.ACCELERATING) {
 			double newVelocity = getXVelocity() + X_ACCELERATION * step;
 			if (! isDucking) {
 				if (newVelocity >= MAX_X_VELOCITY) {	//Mazub is not ducking and has reached max speed.
-					setXVelocity(MAX_X_VELOCITY);
-					setXState(XState.MAXED_OUT);
+					return MAX_X_VELOCITY;
 				} else {	//Mazub is not ducking and is still accelerating.
-					setXVelocity(newVelocity);
+					return newVelocity;
 				}
 			} else {
 				if (newVelocity >= MAX_X_DUCKING_VELOCITY) {	//Mazub is ducking and has reached max speed.
-					setXVelocity(MAX_X_DUCKING_VELOCITY);
-					setXState(XState.MAXED_OUT);
+					return MAX_X_DUCKING_VELOCITY;
 				} else { 	//Mazub is ducking and is still accelerating.
-					setXVelocity(newVelocity);
+					return newVelocity;
 				}
 			}
-		}
+		} else return getXVelocity();
 		//If Mazub has already reached max speed or is not moving horizontally, there is no change in speed.
 	}
 	
@@ -280,20 +290,16 @@ public class Mazub {
 	 * Updates the horizontal position of Mazub to its new value after a given amount of time.
 	 * @param step: the amount of time that has to be advanced.
 	 */
-	public void updateXPosition(double step) {
+	public double calculateNewXPosition(double step) {
 		double distanceTraveled = 0;
 		if (getXState() == XState.ACCELERATING) { //Speed is not constant.
 			distanceTraveled = getXVelocity() * step + .5 * X_ACCELERATION * step * step;
 		} else { //Speed is constant (0 or MAX_X_SPEED)
 			distanceTraveled = getXVelocity() * step;
 		} //If Mazub is not moving horizontally, the distance traveled is the initial value of distanceTraveled (0)
-		if (isDirectionIsRight()) { // When going to the right, the distance is added to the old position.
-			setXPosition(getXPosition() + distanceTraveled);
-		} else { //When going to the left, the distance is subtracted from the old position.
-			setXPosition(getXPosition() - distanceTraveled);
-		}
-		setXPosition(isDirectionIsRight() ? getXPosition()+distanceTraveled : getXPosition()-distanceTraveled);
-	
+		return isDirectionIsRight() ? getXPosition()+distanceTraveled : getXPosition()-distanceTraveled;
+		//When going to the left, the distance is subtracted from the old position.
+		//When going to the right, the distance is added to the old position.
 	}
 	
 	/**
@@ -317,7 +323,7 @@ public class Mazub {
 			throw new IllegalStateException();
 		}
 		setYVelocity(INITIAL_Y_VELOCITY);
-		setJumping(true);
+		setIsJumping(true);
 	}
 	
 	/**
@@ -336,31 +342,31 @@ public class Mazub {
 	}
 	
 	/**
-	 * Updates the vertical velocity of Mazub to its new value after a given amount of time.
+	 * Calculates the new vertical velocity of Mazub after a given amount of time.
 	 * @param step: the amount of time that has to be advanced.
 	 */
-	public void updateYVelocity(double step) {
+	public double calculateNewYVelocity(double step) {
 		if (isJumping()) {
-			setYVelocity(getYVelocity() + Y_ACCELERATION * step);
+			return (getYVelocity() + Y_ACCELERATION * step);
 		}
+		else return getYVelocity();
 		// If Mazub is not jumping, there is no change in vertical speed.
 	}
 	
 	/**
-	 * Updates the vertical position of Mazub to its new value after a given amount of time.
+	 * Calculates the new vertical position of Mazub after a given amount of time.
 	 * @param step: the amount of time that has to be advanced.
 	 */
-	public void updateYPosition(double step) {
+	public double calculateNewYPosition(double step) {
 		if (isJumping()) {
 			double newPosition = getYPosition() + getYVelocity() * step + .5 * Y_ACCELERATION * step * step;
 			if (newPosition > 0) { //Mazub is still in the air.
-				setYPosition(newPosition);
+				return newPosition;
 			} else { //Mazub has reached the ground again.
-				setYPosition(0);
-				setYVelocity(0);
-				setJumping(false);
+				return 0;
 			}
-		}
+		} return 0;
+		//TODO nog ff checken
 		// If Mazub is not jumping, there is no change in vertical position.
 	}
 	
@@ -443,10 +449,11 @@ public class Mazub {
 		if (!(step>=0 && step<=0.2)) {
 			throw new IllegalArgumentException();
 		}
-		updateXVelocity(step);
-		updateXPosition(step);
-		updateYVelocity(step);
-		updateYPosition(step);
+		double newXVelocity = calculateNewXVelocity(step);
+		double newXPosition = calculateNewXPosition(step);
+		double newYVelocity = calculateNewYVelocity(step);
+		double newYPosition = calculateNewYPosition(step);
+		
 		if (! isValidXPosition(getXPosition())) { //Mazub is at one of the side edges.
 			if (getXPosition() < 0) { //Mazub is at the left edge.
 				setXPosition(0);
@@ -456,11 +463,24 @@ public class Mazub {
 			setXVelocity(0);
 			setXState(XState.STILL);
 			throw new IndexOutOfBoundsException();		
+		} else {
+			setXPosition(newXPosition);
+			setXVelocity(newXVelocity);
 		}
-		if (! isValidYPosition(getYPosition())) {
-			setYPosition(MAX_Y);
+		if (! isValidYPosition(getYPosition())) { //Mazub is at top edge
+			setYPosition(MAX_Y); 
 			setYVelocity(0);
 			throw new IndexOutOfBoundsException();
+		}else {
+			if (newYPosition <= 0){ //Mazub reaches the ground
+				setYPosition(0);
+				setYVelocity(0);
+				setIsJumping(false);
+			} else {
+				setYPosition(newYPosition);
+				setYVelocity(newYVelocity);
+			}
+			
 		}
 		advanceTimeToLastStateChange(step);
 	}
