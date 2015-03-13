@@ -1,5 +1,6 @@
 package jumpingalien.model;
 
+import be.kuleuven.cs.som.annotate.Basic;
 import jumpingalien.util.Sprite;
 
 /**
@@ -72,119 +73,254 @@ public class Mazub {
 		return 50;
 	}
 
+	@Basic
+	/**
+	 * Returns the horizontal position of Mazub.
+	 */
 	public double getXPosition() {
 		return xPosition;
 	}
 	
+	@Basic
+	/**
+	 * Returns the maximal horizontal position of Mazub.
+	 */
 	public double getMaxXPosition() {
 		return this.MAX_X;
 	}
 
+	@Basic
+	/**
+	 * Sets the horizontal position to xPosition.
+	 * @param xPosition
+	 */
 	public void setXPosition(double xPosition) {
 		this.xPosition = xPosition;
 	}
-
+	
+	@Basic
+	/**
+	 * Returns the vertical position of Mazub.
+	 * @return
+	 */
 	public double getYPosition() {
 		return yPosition;
 	}
 	
+	@Basic
+	/**
+	 * Returns the maximal vertical position.
+	 */
 	public double getMaxYPosition() {
 		return this.MAX_Y;
 	}
 
+	@Basic
+	/**
+	 * Changes the vertical position of Mazub to yPosition
+	 * @param yPosition
+	 */
 	public void setYPosition(double yPosition) {
 		this.yPosition = yPosition;
 	}
-
+	
+	@Basic
+	/**
+	 * Returns the horizontal velocity of Mazub
+	 * @return
+	 */
 	public double getXVelocity() {
 		return xVelocity;
 	}
 
+	@Basic
+	/**
+	 * Changes the horizontal velocity of Mazub to xVelocity
+	 * @param xVelocity
+	 */
 	public void setXVelocity(double xVelocity) {
 		this.xVelocity = xVelocity;
 	}
-
+	
+	@Basic
+	/**
+	 * Returns the vertical velocity of Mazub
+	 * @return
+	 */
 	public double getYVelocity() {
 		return yVelocity;
 	}
 
+	@Basic
+	/**
+	 * Changes the vertical velocity of Mazub to yVelocity
+	 * @param yVelocity
+	 */
 	public void setYVelocity(double yVelocity) {
 		this.yVelocity = yVelocity;
 	}
-
+	
+	@Basic
+	/**
+	 * Returns the state of Mazub's horizontal movement 
+	 * @return the state of Mazub's horizontal movement  
+	 */
 	public XState getXState() {
 		return xState;
 	}
 
+	@Basic
+	/**
+	 * Changes the state of Mazub's horizontal movement to xState
+	 * @param xState
+	 */
 	public void setXState(XState xState) {
 		this.xState = xState;
 	}
-
+	
+	@Basic
+	/**
+	 * Returns whether Mazub is jumping or not
+	 * @return true if Mazub is jumping, else false
+	 */
 	public boolean isJumping() {
 		return isJumping;
 	}
 
+	@Basic
+	/**
+	 * Changes the jumping state of Mazub to inAir
+	 * @param inAir
+	 */
 	public void setIsJumping(boolean inAir) {
 		this.isJumping = inAir;
 	}
-
+	
+	@Basic
+	/**
+	 * Returns whether Mazub is ducking or not
+	 * @return true if Mazub is ducking, else false
+	 */
 	public boolean isDucking() {
 		return isDucking;
 	}
 
+	@Basic
+	/**
+	 * Changes the ducking state of Mazub
+	 * @param isDucking
+	 */
 	public void setIsDucking(boolean isDucking) {
 		this.isDucking = isDucking;
 	}
-
+	
+	@Basic
+	//TODO clarifying documentation 
+	/**
+	 * Returns if Mazub is facing right
+	 * @return
+	 */
 	public boolean isDirectionIsRight() {
 		return directionIsRight;
 	}
 
+	@Basic
+	/**
+	 * Changes the direction of Mazub
+	 * @param directionIsRight
+	 */
 	public void setDirectionIsRight(boolean directionIsRight) {
 		this.directionIsRight = directionIsRight;
 	}
 
+	@Basic
+	//TODO Clarifying the documentation as well as the next one
+	/**
+	 * Changes the last direction of Mazub
+	 * @param lastDirectionIsRight
+	 */
 	public void setLastDirectionIsRight(boolean lastDirectionIsRight) {
 		this.lastDirectionIsRight = lastDirectionIsRight;
 	}
 
+	@Basic
+	/**
+	 * Retu
+	 * @return
+	 */
 	public boolean isLastDirectionIsRight() {
 		return lastDirectionIsRight;
 	}
 
+	@Basic
+	/**
+	 * Returns the previous state of Mazub's horizontal movement
+	 * @return
+	 */
 	public XState getLastState() {
 		return lastState;
 	}
 
+	@Basic
+	/**
+	 * Change the value of the previous state of Mazub to lastState
+	 * @param lastState
+	 */
 	public void setLastState(XState lastState) {
 		this.lastState = lastState;
 	}
 
+	@Basic
+	/**
+	 * Returns the time that has passed since the last change of Mazub's state
+	 * @return
+	 */
 	public double getTimeToLastStateChange() {
 		return timeToLastStateChange;
 	}
 
+	@Basic
+	/**
+	 * Changes the time that has passed since the last change of Mazub's state to 0
+	 */
 	public void resetTimeToLastStateChange() {
 		this.timeToLastStateChange = 0;
 	}
 	
+	@Basic
+	/**
+	 * Add time to the time that has passed since the last change of Mazub's state 
+	 * @param step
+	 */
 	public void advanceTimeToLastStateChange(double step) {
 		this.timeToLastStateChange += step;
 	}
 	
+	@Basic
+	/**
+	 * Returns the Sprites that belong to Mazub
+	 * @return
+	 */
 	public Sprite[] getSprites() {
 		return this.sprites;
 	}
 	
-	public Sprite getSprite(int index) {
-		return getSprites()[index];
-	}
-	
+	@Basic
+	//TODO Do you have to change the sprites? Not given to the constructor?
 	public void setSprites(Sprite[] sprites) {
 		this.sprites = sprites;
 	}
 	
 	//OTHER INSPECTORS
+	/**
+	 * Returns the sprite at a given index
+	 * @param index
+	 * @return The sprite at index index of getSprites()
+	 */
+	public Sprite getSprite(int index) {
+		return getSprites()[index];
+	}
+	
 	/**
 	 * Get the x-coordinate of the bottom left pixel of Mazub.
 	 * @return XPosition converted from meter to pixels and rounded down.
