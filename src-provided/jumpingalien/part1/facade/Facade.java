@@ -1,13 +1,18 @@
 package jumpingalien.part1.facade;
 
 import jumpingalien.model.Mazub;
+import jumpingalien.util.ModelException;
 import jumpingalien.util.Sprite;
 
 public class Facade implements IFacade {
 
 	@Override
-	public Mazub createMazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites) {
-		return new Mazub(pixelLeftX * 0.01, pixelBottomY * 0.01, sprites);
+	public Mazub createMazub(int pixelLeftX, int pixelBottomY, Sprite[] sprites) throws ModelException {
+		try {
+			return new Mazub(pixelLeftX * 0.01, pixelBottomY * 0.01, sprites);
+		} catch (IllegalArgumentException e) {
+			throw new ModelException("IllegalArgumentException");
+		}
 	}
 
 	@Override
@@ -40,13 +45,21 @@ public class Facade implements IFacade {
 	}
 
 	@Override
-	public void startJump(Mazub alien) {
-		alien.startJump();
+	public void startJump(Mazub alien) throws ModelException {
+		try {
+			alien.startJump();
+		} catch (IllegalStateException e) {
+			throw new ModelException("Already jumping.");
+		}
 	}
 
 	@Override
-	public void endJump(Mazub alien) {
-		alien.endJump();
+	public void endJump(Mazub alien) throws ModelException {
+		try {
+			alien.endJump();
+		} catch (IllegalStateException e) {
+			throw new ModelException("Not jumping.");
+		}
 	}
 
 	@Override
@@ -70,17 +83,31 @@ public class Facade implements IFacade {
 	}
 
 	@Override
-	public void startDuck(Mazub alien) {
-		alien.startDuck();
+	public void startDuck(Mazub alien) throws ModelException {
+		try {
+			alien.startDuck();
+		} catch (IllegalStateException e) {
+			throw new ModelException("Already ducking.");
+		}
 	}
 
 	@Override
-	public void endDuck(Mazub alien) {
-		alien.endDuck();
+	public void endDuck(Mazub alien) throws ModelException {
+		try {
+			alien.endDuck();
+		} catch (IllegalStateException e) {
+			throw new ModelException("Not ducking.");
+		}
 	}
 
 	@Override
-	public void advanceTime(Mazub alien, double dt) {
-		alien.advanceTime(dt);
+	public void advanceTime(Mazub alien, double dt) throws ModelException {
+		try {
+			alien.advanceTime(dt);
+		} catch (IllegalArgumentException e) {
+			throw new ModelException("The time step should be in [0, 0.2]");
+		} catch (IndexOutOfBoundsException e) {
+			throw new ModelException("Reached edge.");
+		}
 	}
 }
