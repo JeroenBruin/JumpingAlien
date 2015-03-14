@@ -58,6 +58,7 @@ public class Mazub {
 		if (YPosition > 0) {
 			setIsJumping(true);
 		}
+		setXState(XState.STILL);
 		this.sprites = sprites;
 	}	
 	
@@ -67,7 +68,7 @@ public class Mazub {
 	 * @return The horizontal position of Mazub in meters
 	 */
 	@Basic
-	public double getXPosition() {
+	private double getXPosition() {
 		return xPosition;
 	}
 	
@@ -76,7 +77,7 @@ public class Mazub {
 	 * @return The maximal horizontal position of Mazub in meters
 	 */
 	@Basic
-	public double getMaxXPosition() {
+	private double getMaxXPosition() {
 		return this.MAX_X;
 	}
 
@@ -85,7 +86,7 @@ public class Mazub {
 	 * @param xPosition The new position in meters
 	 */
 	@Basic
-	public void setXPosition(double xPosition) {
+	private void setXPosition(double xPosition) {
 		this.xPosition = xPosition;
 	}
 	
@@ -94,7 +95,7 @@ public class Mazub {
 	 * @return The vertical position of Mazub in meters
 	 */
 	@Basic
-	public double getYPosition() {
+	private double getYPosition() {
 		return yPosition;
 	}
 	
@@ -103,7 +104,7 @@ public class Mazub {
 	 * @return The maximal vertical position of Mazub in meters
 	 */
 	@Basic
-	public double getMaxYPosition() {
+	private double getMaxYPosition() {
 		return this.MAX_Y;
 	}
 
@@ -112,7 +113,7 @@ public class Mazub {
 	 * @param yPosition The new position in meters
 	 */
 	@Basic
-	public void setYPosition(double yPosition) {
+	private void setYPosition(double yPosition) {
 		this.yPosition = yPosition;
 	}
 	
@@ -130,7 +131,7 @@ public class Mazub {
 	 * @param xVelocity The new velocity in meters/seconds
 	 */
 	@Basic
-	public void setXVelocity(double xVelocity) {
+	private void setXVelocity(double xVelocity) {
 		this.xVelocity = xVelocity;
 	}
 	
@@ -148,7 +149,7 @@ public class Mazub {
 	 * @param yVelocity The new velocity in meters/seconds
 	 */
 	@Basic
-	public void setYVelocity(double yVelocity) {
+	private void setYVelocity(double yVelocity) {
 		this.yVelocity = yVelocity;
 	}
 	
@@ -160,7 +161,7 @@ public class Mazub {
 	 * @return The state of Mazub's horizontal movement
 	 */
 	@Basic
-	public XState getXState() {
+	private XState getXState() {
 		return xState;
 	}
 
@@ -169,7 +170,7 @@ public class Mazub {
 	 * @param xState The new xState of Mazub (STILL, ACCELERATING or MAXED_OUT)
 	 */
 	@Basic
-	public void setXState(XState xState) {
+	private void setXState(XState xState) {
 		this.xState = xState;
 	}
 	
@@ -178,7 +179,7 @@ public class Mazub {
 	 * @return True if Mazub is jumping, false if not
 	 */
 	@Basic
-	public boolean isJumping() {
+	private boolean isJumping() {
 		return isJumping;
 	}
 
@@ -187,7 +188,7 @@ public class Mazub {
 	 * @param isJumping
 	 */
 	@Basic
-	public void setIsJumping(boolean isJumping) {
+	private void setIsJumping(boolean isJumping) {
 		this.isJumping = isJumping;
 	}
 	
@@ -196,7 +197,7 @@ public class Mazub {
 	 * @return true if Mazub is ducking, false if not
 	 */
 	@Basic
-	public boolean isDucking() {
+	private boolean isDucking() {
 		return isDucking;
 	}
 
@@ -205,7 +206,7 @@ public class Mazub {
 	 * @param isDucking
 	 */
 	@Basic
-	public void setIsDucking(boolean isDucking) {
+	private void setIsDucking(boolean isDucking) {
 		this.isDucking = isDucking;
 	}
 	
@@ -214,7 +215,7 @@ public class Mazub {
 	 * @return true if Mazub is facing right, false if Mazub is facing left
 	 */
 	@Basic
-	public boolean directionIsRight() {
+	private boolean directionIsRight() {
 		return directionIsRight;
 	}
 
@@ -223,7 +224,7 @@ public class Mazub {
 	 * @param directionIsRight True if the new direction is right, false if it's left
 	 */
 	@Basic
-	public void setDirectionIsRight(boolean directionIsRight) {
+	private void setDirectionIsRight(boolean directionIsRight) {
 		this.directionIsRight = directionIsRight;
 	}
 
@@ -232,7 +233,7 @@ public class Mazub {
 	 * @param lastDirectionIsRight True if the direction is right, false if it's left
 	 */
 	@Basic
-	public void setLastDirectionIsRight(boolean lastDirectionIsRight) {
+	private void setLastDirectionIsRight(boolean lastDirectionIsRight) {
 		this.lastDirectionIsRight = lastDirectionIsRight;
 	}
 
@@ -241,7 +242,7 @@ public class Mazub {
 	 * @return lastDirectionIsRight true if Mazub was facing right, false if Mazub was facing left
 	 */
 	@Basic
-	public boolean lastDirectionIsRight() {
+	private boolean lastDirectionIsRight() {
 		return lastDirectionIsRight;
 	}
 
@@ -250,7 +251,7 @@ public class Mazub {
 	 * @return XState.STILL, XState.ACCELERATING or XState.MAXED_OUT
 	 */
 	@Basic
-	public XState getLastState() {
+	private XState getLastState() {
 		return lastState;
 	}
 	
@@ -259,7 +260,7 @@ public class Mazub {
 	 * @param XState.STILL, XState.ACCELERATING or XState.MAXED_OUT
 	 */
 	@Basic
-	public void setLastState(XState lastState) {
+	private void setLastState(XState lastState) {
 		this.lastState = lastState;
 	}
 
@@ -268,7 +269,7 @@ public class Mazub {
 	 * @return amount of time in seconds
 	 */
 	@Basic
-	public double getTimeToLastStateChange() {
+	private double getTimeToLastStateChange() {
 		return timeToLastStateChange;
 	}
 
@@ -276,7 +277,7 @@ public class Mazub {
 	 * Changes the time that has passed since the last change of Mazub's state to 0
 	 */
 	@Basic
-	public void resetTimeToLastStateChange() {
+	private void resetTimeToLastStateChange() {
 		this.timeToLastStateChange = 0;
 	}
 	
@@ -285,7 +286,7 @@ public class Mazub {
 	 * @param step The amount of time that has to be added in seconds
 	 */
 	@Basic
-	public void advanceTimeToLastStateChange(double step) {
+	private void advanceTimeToLastStateChange(double step) {
 		this.timeToLastStateChange += step;
 	}
 	
@@ -294,7 +295,7 @@ public class Mazub {
 	 * @return the array of sprites
 	 */
 	@Basic
-	public Sprite[] getSprites() {
+	private Sprite[] getSprites() {
 		return this.sprites;
 	}
 	
@@ -320,7 +321,7 @@ public class Mazub {
 	 * @param index
 	 * @return The sprite at index index of getSprites()
 	 */
-	public Sprite getSprite(int index) {
+	private Sprite getSprite(int index) {
 		return getSprites()[index];
 	}
 	
@@ -405,7 +406,7 @@ public class Mazub {
 	 * Calculates the new horizontal velocity of Mazub after a given amount of time.
 	 * @param step: the amount of time that has to be advanced.
 	 */
-	public double calculateNewXVelocity(double step) {
+	private double calculateNewXVelocity(double step) {
 		if (getXState() == XState.ACCELERATING) {
 			double newVelocity = getXVelocity() + X_ACCELERATION * step;
 			if (! isDucking) {
@@ -431,7 +432,7 @@ public class Mazub {
 	 * Calculates the new horizontal position of Mazub after a given amount of time.
 	 * @param step: the amount of time that has to be advanced.
 	 */
-	public double calculateNewXPosition(double step) {
+	private double calculateNewXPosition(double step) {
 		double distanceTraveled = 0;
 		if (getXState() == XState.ACCELERATING) { //Speed is not constant.
 			distanceTraveled = getXVelocity() * step + .5 * X_ACCELERATION * step * step;
@@ -448,7 +449,7 @@ public class Mazub {
 	 * @param position, x-coordinate of the bottom left coordinate in meters
 	 * @return true if the position is in the interval [0,MAX_X]
 	 */
-	public boolean isValidXPosition(double position) {
+	private boolean isValidXPosition(double position) {
 		return (position >= 0) && (position <= MAX_X);
 	}
 	
@@ -486,7 +487,7 @@ public class Mazub {
 	 * Calculates the new vertical velocity of Mazub after a given amount of time.
 	 * @param step: the amount of time that has to be advanced.
 	 */
-	public double calculateNewYVelocity(double step) {
+	private double calculateNewYVelocity(double step) {
 		if (isJumping()) {
 			return (getYVelocity() + Y_ACCELERATION * step);
 		}
@@ -498,7 +499,7 @@ public class Mazub {
 	 * Calculates the new vertical position of Mazub after a given amount of time.
 	 * @param step: the amount of time that has to be advanced.
 	 */
-	public double calculateNewYPosition(double step) {
+	private double calculateNewYPosition(double step) {
 		if (isJumping()) {
 			return getYPosition() + getYVelocity() * step + .5 * Y_ACCELERATION * step * step;
 		} else {
@@ -511,7 +512,7 @@ public class Mazub {
 	 * @param position, y-coordinate of the bottom left coordinate in meters
 	 * @return true if the position is in the interval [0,MAX_Y]
 	 */
-	public boolean isValidYPosition(double position) {
+	private boolean isValidYPosition(double position) {
 		return (position >= 0) && (position <= MAX_Y);
 	}
 	
