@@ -1,11 +1,12 @@
 package jumpingalien.model;
-import static org.junit.Assert.*;
 
+import static org.junit.Assert.*;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import jumpingalien.util.Util;
 
 public class MazubTest {
 
@@ -29,8 +30,8 @@ public class MazubTest {
 	@Test
 	public void constructor_LegalCase(){
 		Mazub maz= new Mazub(0, 5, null);
-		assertEquals(0,maz.getXPosition());
-		assertEquals(5,maz.getYPosition());
+		Util.fuzzyEquals(0.0,maz.getXPosition()); 
+		Util.fuzzyEquals(5, maz.getYPosition());
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
@@ -66,7 +67,7 @@ public class MazubTest {
 		maz.setIsJumping(true);
 		maz.setYVelocity(1);
 		maz.endJump();
-		assertEquals(0,maz.getYVelocity());
+		assertEquals(0,maz.getYVelocity(),0.01);
 	}
 	
 	@Test(expected=IllegalStateException.class)
@@ -120,21 +121,38 @@ public class MazubTest {
 	}
 	
 	@Test(expected=IndexOutOfBoundsException.class)
-	public void advanceTime_IllegalXPositionCase() throws Exception{
+	public void advanceTime_OverRightEdgeXPositionCase() throws Exception{
 		Mazub maz = new Mazub(0,0,null); 
-		maz.setXPosition(maz.getMaxXPosition()); //XPosition becomes negative test?
+		maz.setXPosition(maz.getMaxXPosition()); 
 		maz.setXVelocity(2);
 		maz.setDirectionIsRight(true);
 		maz.advanceTime(0.2); 
 	}
 	
 	@Test(expected=IndexOutOfBoundsException.class)
-	public void advanceTime_IllegalYPositionCase() throws Exception{
+	public void advanceTime_OverLeftEdgeXPositionCase() throws Exception{
+		Mazub maz = new Mazub(-1,0,null); 
+		maz.setXPosition(maz.getMaxXPosition()); 
+		maz.setXVelocity(2);
+		maz.setDirectionIsRight(false);
+		maz.advanceTime(0.2); 
+	}
+	
+	@Test(expected=IndexOutOfBoundsException.class)
+	public void advanceTime_OverTopEdgeYPositionCase() throws Exception{
 		Mazub maz = new Mazub(0,0,null); 
 		maz.setYPosition(maz.getMaxYPosition());
 		maz.setYVelocity(2);
 		maz.setIsJumping(true);
 		maz.advanceTime(0.2); 
 	}
-
-}
+	
+	@Test(expected=IndexOutOfBoundsException.class)
+	public void advanceTime_OverTopEdgeYPositionCase() throws Exception{
+		Mazub maz = new Mazub(0,0,null); 
+		maz.setYPosition(maz.getMaxYPosition());
+		maz.setYVelocity(2);
+		maz.setIsJumping(true);
+		maz.advanceTime(0.2); 
+	}
+	

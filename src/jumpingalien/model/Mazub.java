@@ -68,7 +68,7 @@ public class Mazub {
 	 * @return The horizontal position of Mazub in meters
 	 */
 	@Basic
-	private double getXPosition() {
+	public double getXPosition() {
 		return xPosition;
 	}
 	
@@ -95,7 +95,7 @@ public class Mazub {
 	 * @return The vertical position of Mazub in meters
 	 */
 	@Basic
-	private double getYPosition() {
+	public double getYPosition() {
 		return yPosition;
 	}
 	
@@ -179,7 +179,7 @@ public class Mazub {
 	 * @return True if Mazub is jumping, false if not
 	 */
 	@Basic
-	private boolean isJumping() {
+	public boolean isJumping() {
 		return isJumping;
 	}
 
@@ -188,7 +188,7 @@ public class Mazub {
 	 * @param isJumping
 	 */
 	@Basic
-	private void setIsJumping(boolean isJumping) {
+	public void setIsJumping(boolean isJumping) {
 		this.isJumping = isJumping;
 	}
 	
