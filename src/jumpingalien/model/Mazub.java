@@ -17,8 +17,8 @@ import jumpingalien.util.Sprite;
  * @invar When isJumping is false, the vertical speed is zero.
  * 		| if (! isJumping())
  * 			getYVelocity == 0;
- * @author Tim Geypens, Jeroen Bruin
- *
+ * @author Tim Geypens (2Bcwselt1), Jeroen Bruin (2Bcwswtk)
+ * Code repository: https://github.com/timgeypens/JumpingAlien
  */
 public class Mazub {
 	// VARIABLE DECLARATION
@@ -49,8 +49,16 @@ public class Mazub {
 	private Sprite[] sprites;
 	
 	//CONSTRUCTOR
+	/**
+	 * Constructs a new Mazub with the given parameters.
+	 * @param XPosition The starting horizontal position of Mazub in meters
+	 * @param YPosition The starting vertical position of Mazub in meters
+	 * @param sprites The array of sprites to be used in the animation of Mazub
+	 * @throws IllegalArgumentException XPosition or YPosition is not a valid starting position for Mazub
+	 * 		| (! isValidYPosition(YPosition) || (! isValidXPosition(XPosition)))
+	 */
 	public Mazub(double XPosition, double YPosition, Sprite[] sprites) throws IllegalArgumentException {
-		if (! isValidYPosition(YPosition) || ! isValidXPosition(XPosition)){
+		if (! isValidYPosition(YPosition) || (! isValidXPosition(XPosition))){
 			throw new IllegalArgumentException("illegal Position");
 		}
 		setXPosition(XPosition);
@@ -68,7 +76,7 @@ public class Mazub {
 	 * @return The horizontal position of Mazub in meters
 	 */
 	@Basic
-	private double getXPosition() {
+	double getXPosition() {
 		return xPosition;
 	}
 	
@@ -77,7 +85,7 @@ public class Mazub {
 	 * @return The maximal horizontal position of Mazub in meters
 	 */
 	@Basic
-	private double getMaxXPosition() {
+	double getMaxXPosition() {
 		return this.MAX_X;
 	}
 
@@ -86,7 +94,7 @@ public class Mazub {
 	 * @param xPosition The new position in meters
 	 */
 	@Basic
-	private void setXPosition(double xPosition) {
+	void setXPosition(double xPosition) {
 		this.xPosition = xPosition;
 	}
 	
@@ -95,7 +103,7 @@ public class Mazub {
 	 * @return The vertical position of Mazub in meters
 	 */
 	@Basic
-	private double getYPosition() {
+	double getYPosition() {
 		return yPosition;
 	}
 	
@@ -104,7 +112,7 @@ public class Mazub {
 	 * @return The maximal vertical position of Mazub in meters
 	 */
 	@Basic
-	private double getMaxYPosition() {
+	double getMaxYPosition() {
 		return this.MAX_Y;
 	}
 
@@ -113,7 +121,7 @@ public class Mazub {
 	 * @param yPosition The new position in meters
 	 */
 	@Basic
-	private void setYPosition(double yPosition) {
+	void setYPosition(double yPosition) {
 		this.yPosition = yPosition;
 	}
 	
@@ -131,7 +139,7 @@ public class Mazub {
 	 * @param xVelocity The new velocity in meters/seconds
 	 */
 	@Basic
-	private void setXVelocity(double xVelocity) {
+	void setXVelocity(double xVelocity) {
 		this.xVelocity = xVelocity;
 	}
 	
@@ -149,7 +157,7 @@ public class Mazub {
 	 * @param yVelocity The new velocity in meters/seconds
 	 */
 	@Basic
-	private void setYVelocity(double yVelocity) {
+	void setYVelocity(double yVelocity) {
 		this.yVelocity = yVelocity;
 	}
 	
@@ -179,7 +187,7 @@ public class Mazub {
 	 * @return True if Mazub is jumping, false if not
 	 */
 	@Basic
-	private boolean isJumping() {
+	boolean isJumping() {
 		return isJumping;
 	}
 
@@ -187,8 +195,8 @@ public class Mazub {
 	 * Changes the jumping state of Mazub to isJumping
 	 * @param isJumping
 	 */
-	@Basic
-	private void setIsJumping(boolean isJumping) {
+	@Basic 
+	void setIsJumping(boolean isJumping) {
 		this.isJumping = isJumping;
 	}
 	
@@ -197,7 +205,7 @@ public class Mazub {
 	 * @return true if Mazub is ducking, false if not
 	 */
 	@Basic
-	private boolean isDucking() {
+	boolean isDucking() {
 		return isDucking;
 	}
 
@@ -206,7 +214,7 @@ public class Mazub {
 	 * @param isDucking
 	 */
 	@Basic
-	private void setIsDucking(boolean isDucking) {
+	void setIsDucking(boolean isDucking) {
 		this.isDucking = isDucking;
 	}
 	
@@ -215,7 +223,7 @@ public class Mazub {
 	 * @return true if Mazub is facing right, false if Mazub is facing left
 	 */
 	@Basic
-	private boolean directionIsRight() {
+	boolean directionIsRight() {
 		return directionIsRight;
 	}
 
@@ -224,7 +232,7 @@ public class Mazub {
 	 * @param directionIsRight True if the new direction is right, false if it's left
 	 */
 	@Basic
-	private void setDirectionIsRight(boolean directionIsRight) {
+	void setDirectionIsRight(boolean directionIsRight) {
 		this.directionIsRight = directionIsRight;
 	}
 
@@ -578,7 +586,7 @@ public class Mazub {
 		}
 	}
 	
-	//GLOBAL
+	//GLOBAL		//defensively
 	/**
 	 * Advances the time with a given step
 	 * @param step
@@ -591,7 +599,7 @@ public class Mazub {
 	 * 			| (! isValidXPosition(calculateNewXPosition(step))) || (! isValidYPosition(calculateNewYPosition(step)))
 	 */
 	@Raw
-	public void advanceTime(double step) throws IllegalArgumentException, IndexOutOfBoundsException { //defensively
+	public void advanceTime(double step) throws IllegalArgumentException, IndexOutOfBoundsException { 
 		if (!(step>=0 && step<=0.2)) {
 			throw new IllegalArgumentException();
 		}
@@ -622,6 +630,7 @@ public class Mazub {
 		} else if (newYPosition > getMaxYPosition()) { //Mazub reaches the top edge
 			setYPosition(getMaxYPosition());
 			setYVelocity(0);
+			throw new IndexOutOfBoundsException();
 		} else {
 			setYPosition(newYPosition);
 			setYVelocity(newYVelocity);

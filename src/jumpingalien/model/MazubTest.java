@@ -25,26 +25,68 @@ public class MazubTest {
 	public void tearDown() throws Exception {
 	}
 	
+	//OTHER INSPECTORS
+	@Test
+	public void getXPixel() {
+		Mazub maz = new Mazub(1.239, 0, null);
+		assertEquals(123, maz.getXPixel(), 0.001);
+	}
+	
+	@Test
+	public void getYPixel() {
+		Mazub maz = new Mazub(0, 6.5401, null);
+		assertEquals(654, maz.getYPixel(), 0.001);
+	}
+	
 	//CONSTRUCTOR
 	@Test
-	public void constructor_LegalCase(){
-		Mazub maz= new Mazub(0, 5, null);
-		assertEquals(0,maz.getXPosition());
-		assertEquals(5,maz.getYPosition());
+	public void constructor_LegalCase() { 
+		Mazub maz = new Mazub(0, 5, null);
+		assertEquals(0,maz.getXPosition(), 0.001);
+		assertEquals(5,maz.getYPosition(), 0.001);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
-	public void constructor_IllegalXCase() throws Exception{
+	public void constructor_IllegalXCase() throws Exception {
 		new Mazub(-1,0,null);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
-	public void constructor_IllegalYCase() throws Exception{
+	public void constructor_IllegalYCase() throws Exception {
 		new Mazub(10,-2,null);
 	}
-	//TODO Another test with MaxY or in this one?
 	
-	//JUMPING
+	@Test(expected=IllegalArgumentException.class)
+	public void constructor_IllegalXCase2() throws Exception {
+		new Mazub(2000,0,null);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void constructor_IllegalYCase2() throws Exception {
+		new Mazub(20,2000,null);
+	}
+	
+	//HORIZONTAL MOVEMENT
+	@Test
+	public void startMove() {
+		Mazub maz = new Mazub(0, 0, null);
+		maz.startMove(true);
+		maz.advanceTime(0.2);
+		assertEquals(1*0.2+0.5*0.9*0.2*0.2, maz.getXPosition(), 0.001);
+	}
+	
+	@Test
+	public void endJump() {
+		Mazub maz = new Mazub(0, 0, null);
+		maz.startMove(true);
+		maz.advanceTime(0.2);
+		maz.endMove();
+		assertEquals(0, maz.getXVelocity(), 0.001);
+		maz.advanceTime(0.2);
+		assertEquals(1*0.2+0.5*0.9*0.2*0.2, maz.getXPosition(), 0.001);
+	}
+	
+	//VERTICAL MOVEMENT
 	@Test
 	public void startJump_LegalCase() {
 		Mazub maz= new Mazub(0, 0, null);
@@ -66,13 +108,13 @@ public class MazubTest {
 		maz.setIsJumping(true);
 		maz.setYVelocity(1);
 		maz.endJump();
-		assertEquals(0,maz.getYVelocity());
+		assertEquals(0, maz.getYVelocity(), 0.001);
 	}
 	
 	@Test(expected=IllegalStateException.class)
 	public void endJump_IllegalCase() throws Exception {
 		Mazub maz= new Mazub(0, 0, null);
-		maz.setIsJumping(false);
+		maz.setIsJumping(true);
 		maz.startJump();
 	}
 	
@@ -88,7 +130,7 @@ public class MazubTest {
 	@Test(expected=IllegalStateException.class)
 	public void startDuck_IllegalCase() throws Exception {
 		Mazub maz= new Mazub(0, 0, null);
-		maz.setIsDucking(false);
+		maz.setIsDucking(true);
 		maz.startDuck();
 	}
 	
@@ -108,21 +150,22 @@ public class MazubTest {
 	}
 	
 	//ADVANCETIME
-	@Test
-	public void advanceTime_LegalCase(){
-		//TODO test every option with different Mazubs? (Landing, moving to the right,...)
-	}
-	
 	@Test(expected=IllegalArgumentException.class)
 	public void advanceTime_IllegalStepCase() throws Exception{
 		Mazub maz = new Mazub(0,0,null); 
-		maz.advanceTime(-0.1); //advancetime 0.3 second test?
+		maz.advanceTime(-0.1);
+	}
+	
+	@Test(expected=IllegalArgumentException.class)
+	public void advanceTime_IllegalStepCase2() throws Exception{
+		Mazub maz = new Mazub(0,0,null); 
+		maz.advanceTime(0.3);
 	}
 	
 	@Test(expected=IndexOutOfBoundsException.class)
 	public void advanceTime_IllegalXPositionCase() throws Exception{
 		Mazub maz = new Mazub(0,0,null); 
-		maz.setXPosition(maz.getMaxXPosition()); //XPosition becomes negative test?
+		maz.setXPosition(maz.getMaxXPosition());
 		maz.setXVelocity(2);
 		maz.setDirectionIsRight(true);
 		maz.advanceTime(0.2); 
@@ -134,7 +177,7 @@ public class MazubTest {
 		maz.setYPosition(maz.getMaxYPosition());
 		maz.setYVelocity(2);
 		maz.setIsJumping(true);
-		maz.advanceTime(0.2); 
+		maz.advanceTime(0.2);
 	}
-
 }
+
