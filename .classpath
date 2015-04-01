@@ -4,6 +4,10 @@
 	<classpathentry kind="src" path="src-provided"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+<<<<<<< HEAD
 	<classpathentry kind="lib" path="/Users/willembruin/Documents/Jeroen/ObjProgPrograms/AnnotationsDoclets.jar"/>
+=======
+	<classpathentry kind="lib" path="D:/School/U2/ObjectgerichtProgrammeren/JumpingAlien/lib/AnnotationsDoclets.jar"/>
+>>>>>>> 66cadc65450769e70f086f5a11c40f4027eb3a64
 	<classpathentry kind="output" path="bin"/>
 </classpath>
